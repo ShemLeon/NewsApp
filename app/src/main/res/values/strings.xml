@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MihNewsApp</string>
+    
+    <string name="enter_email">Введите email</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter_username">Введите никнейм</string>
+    <string name="login">Войти</string>
+    <string name="register">Все еще нет аккаунта? Регистрация</string>
+
+
+</resources>

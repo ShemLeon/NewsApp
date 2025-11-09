@@ -1,0 +1,178 @@
+package com.leoevg.mihnewsapp.presentation.screen
+
+
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.leoevg.mihnewsapp.presentation.navigation.Screen
+import com.leoevg.mihnewsapp.R
+import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenEvent
+import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenState
+import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
+import com.leoevg.mihnewsapp.presentation.screen.viewmodel.RegisterScreenViewModel
+import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
+import com.leoevg.mihnewsapp.util.util.Result
+
+@Composable
+fun RegisterScreen(
+    onNavigateTo:(Screen) -> Unit = {}
+){
+    val viewModel = hiltViewModel<RegisterScreenViewModel>()
+    val context = LocalContext.current
+
+    LaunchedEffect(viewModel.state.registerResult) {
+        viewModel.state.registerResult?.let { registerResult->
+            when(registerResult){
+                is com.leoevg.mihnewsapp.util.util.Result.Success<*> -> {
+                    onNavigateTo(Screen.Main)
+                }
+                is Result.Failure<*> -> {
+                    Toast.makeText(context, registerResult.msg, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+    RegisterView(
+        state = viewModel.state,
+        onEvent = viewModel::onEvent,
+        onNavigateTo = { navigateTo ->
+            onNavigateTo(navigateTo)
+        }
+    )
+
+}
+
+@Composable
+fun RegisterView(
+    state: RegisterScreenState = RegisterScreenState(),
+    onEvent: (RegisterScreenEvent) -> Unit = {},
+    onNavigateTo: (Screen) -> Unit = {}
+){
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = com.leoevg.mihnewsapp.R.string.app_name),
+            fontSize = 30.sp,
+            modifier = Modifier
+                .padding(top = 100.dp)
+        )
+        Image(
+            painter = painterResource(id= com.leoevg.mihnewsapp.R.drawable.logo),
+            contentDescription = "News app login img",
+            modifier = Modifier
+                .size(160.dp)
+                .padding(top = 20.dp)
+        )
+
+        OutlinedTextField(
+            value = state.username,
+            onValueChange ={
+                onEvent(RegisterScreenEvent.UsernameUpdated(it))
+            },
+            leadingIcon = {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Outlined.ThumbUp),
+                    contentDescription = "username"
+                )
+            },
+            modifier = Modifier
+                .padding(top = 10.dp),
+            placeholder = {
+                Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_username))
+            }
+        )
+        OutlinedTextField(
+            value = state.email,
+            onValueChange ={
+                onEvent(RegisterScreenEvent.EmailUpdated(it))
+            },
+            leadingIcon = {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Outlined.Email),
+                    contentDescription = "Email"
+                )
+            },
+            modifier = Modifier
+                .padding(top = 10.dp),
+            placeholder = {
+                Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_email))
+            }
+        )
+
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(top = 10.dp),
+            value = state.password,
+            onValueChange ={
+                onEvent(RegisterScreenEvent.PasswordUpdated(it))
+            },
+            leadingIcon = {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Outlined.Lock),
+                    contentDescription = "password"
+                )
+            },
+
+            visualTransformation = PasswordVisualTransformation(),
+            placeholder = {
+                Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_password))
+            }
+        )
+
+        StyledButton(
+            onClick = {
+                onEvent(RegisterScreenEvent.RegisterBtnClicked)
+            },
+            modifier = Modifier
+                .padding(top = 10.dp, bottom = 30.dp)
+        ) {
+            Text(text = "Регистрация")
+        }
+
+        Text(
+            text = "уже есть аккаунт",
+            modifier = Modifier.clickable{
+                onNavigateTo(Screen.Login)
+            }
+        )
+    }
+}
+
+
+@Composable
+@Preview(showBackground = true)
+fun RegisterScreenPreview(){
+    RegisterView()
+}
