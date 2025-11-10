@@ -9,7 +9,7 @@ import com.leoevg.mihnewsapp.data.repository.AuthRepository
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenEvent
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
