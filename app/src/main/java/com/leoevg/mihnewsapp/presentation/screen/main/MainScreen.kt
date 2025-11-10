@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.screen
+package com.leoevg.mihnewsapp.presentation.screen.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

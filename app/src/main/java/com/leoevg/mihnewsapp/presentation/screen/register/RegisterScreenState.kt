@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.screen.state
+package com.leoevg.mihnewsapp.presentation.screen.register
 
 import com.leoevg.mihnewsapp.util.Result
 

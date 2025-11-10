@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.screen.viewmodel
+package com.leoevg.mihnewsapp.presentation.screen.register
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoevg.mihnewsapp.data.repository.AuthRepository
-import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenEvent
-import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

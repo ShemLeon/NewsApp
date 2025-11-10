@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.screen.viewmodel
+package com.leoevg.mihnewsapp.presentation.screen.login
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,12 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoevg.mihnewsapp.data.repository.AuthRepository
-import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenEvent
-import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(

@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.screen
+package com.leoevg.mihnewsapp.presentation.screen.register
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -26,49 +27,43 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.leoevg.mihnewsapp.R
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.leoevg.mihnewsapp.presentation.navigation.Screen
-import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenEvent
-import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenState
-import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
+import com.leoevg.mihnewsapp.R
+import com.leoevg.mihnewsapp.presentation.screen.register.RegisterScreenViewModel
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
 import com.leoevg.mihnewsapp.util.Result
 
-
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     onNavigateTo: (Screen) -> Unit = {}
 ) {
-    val viewModel = hiltViewModel<LoginScreenViewModel>()
-
+    val viewModel = hiltViewModel<RegisterScreenViewModel>()
     val context = LocalContext.current
-    LaunchedEffect(viewModel.state.loginResult) {
-        viewModel.state.loginResult?.let { loginResult ->
-            when (loginResult) {
+    LaunchedEffect(viewModel.state.registerResult) {
+        viewModel.state.registerResult?.let { registerResult ->
+            when (registerResult) {
                 is Result.Success<*> -> {
                     onNavigateTo(Screen.Main)
                 }
                 is Result.Failure<*> -> {
-                    Toast.makeText(context, loginResult.msg, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, registerResult.msg, Toast.LENGTH_LONG).show()
                 }
             }
         }
-
     }
-    LoginView(
+    RegisterView(
         state = viewModel.state,
-        onNavigateTo = onNavigateTo,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        onNavigateTo = onNavigateTo
     )
 }
 
 @Composable
-fun LoginView(
-    state: LoginScreenState,
-    onEvent: (LoginScreenEvent) -> Unit,
-    onNavigateTo: (Screen) -> Unit,
+fun RegisterView(
+    state: RegisterScreenState = RegisterScreenState(),
+    onEvent: (RegisterScreenEvent) -> Unit = {},
+    onNavigateTo: (Screen) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -78,24 +73,39 @@ fun LoginView(
     ) {
         Text(
             text = stringResource(id = R.string.app_name),
-            fontSize = 25.sp,
-            modifier = Modifier
-                .padding(top = 100.dp)
+            fontSize = 30.sp,
+            modifier = Modifier.padding(top = 100.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.logo),
-            contentDescription = "News app login image",
+            contentDescription = "News app login img",
             modifier = Modifier
                 .size(160.dp)
                 .padding(top = 20.dp)
         )
-        // email input
+        // username
         OutlinedTextField(
+            value = state.username,
+            onValueChange = {
+                onEvent(RegisterScreenEvent.UsernameUpdated(it))
+            },
+            leadingIcon = {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Outlined.ThumbUp),
+                    contentDescription = "username"
+                )
+            },
             modifier = Modifier
-                .padding(top = 100.dp),
+                .padding(top = 10.dp),
+            placeholder = {
+                Text(text = stringResource(id = R.string.enter_username))
+            }
+        )
+        // email
+        OutlinedTextField(
             value = state.email,
             onValueChange = {
-                onEvent(LoginScreenEvent.EmailUpdated(it))
+                onEvent(RegisterScreenEvent.EmailUpdated(it))
             },
             leadingIcon = {
                 Icon(
@@ -103,17 +113,19 @@ fun LoginView(
                     contentDescription = "Email"
                 )
             },
+            modifier = Modifier
+                .padding(top = 10.dp),
             placeholder = {
                 Text(text = stringResource(id = R.string.enter_email))
             }
         )
-        // password input
+        // password
         OutlinedTextField(
             modifier = Modifier
                 .padding(top = 10.dp),
             value = state.password,
             onValueChange = {
-                onEvent(LoginScreenEvent.PasswordUpdated(it))
+                onEvent(RegisterScreenEvent.PasswordUpdated(it))
             },
             leadingIcon = {
                 Icon(
@@ -121,6 +133,7 @@ fun LoginView(
                     contentDescription = "password"
                 )
             },
+
             visualTransformation = PasswordVisualTransformation(),
             placeholder = {
                 Text(text = stringResource(id = R.string.enter_password))
@@ -129,38 +142,29 @@ fun LoginView(
 
         StyledButton(
             onClick = {
-                onEvent(LoginScreenEvent.LoginBtnClicked)
+                onEvent(RegisterScreenEvent.RegisterBtnClicked)
             },
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 50.dp)
+                .padding(top = 10.dp, bottom = 30.dp)
         ) {
-            Text(
-                text = stringResource(id = R.string.login),
-                fontSize = 19.sp
-            )
+            Text(text = "Регистрация")
         }
 
         Text(
-            text = stringResource(id = R.string.no_account_register),
+            text = stringResource(id = R.string.already_have_an_account),
             fontSize = 16.sp,
             modifier = Modifier
                 .padding(top = 20.dp)
                 .clickable {
-                    onNavigateTo(Screen.Register)
+                    onNavigateTo(Screen.Login)
                 }
         )
     }
 }
 
+
 @Composable
 @Preview(showBackground = true)
-fun LoginScreenPreview() {
-    LoginView(
-        state = LoginScreenState(
-            email = "test@test.com",
-            password = "password"
-        ),
-        onEvent = {},
-        onNavigateTo = {}
-    )
+fun RegisterScreenPreview() {
+    RegisterView()
 }

@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.screen
+package com.leoevg.mihnewsapp.presentation.screen.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -20,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -30,46 +27,44 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.leoevg.mihnewsapp.presentation.navigation.Screen
 import com.leoevg.mihnewsapp.R
-import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenEvent
-import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenState
-import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
-import com.leoevg.mihnewsapp.presentation.screen.viewmodel.RegisterScreenViewModel
+import com.leoevg.mihnewsapp.presentation.navigation.Screen
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
 import com.leoevg.mihnewsapp.util.Result
 
+
 @Composable
-fun RegisterScreen(
+fun LoginScreen(
     onNavigateTo: (Screen) -> Unit = {}
 ) {
-    val viewModel = hiltViewModel<RegisterScreenViewModel>()
+    val viewModel = hiltViewModel<LoginScreenViewModel>()
+
     val context = LocalContext.current
-    LaunchedEffect(viewModel.state.registerResult) {
-        viewModel.state.registerResult?.let { registerResult ->
-            when (registerResult) {
+    LaunchedEffect(viewModel.state.loginResult) {
+        viewModel.state.loginResult?.let { loginResult ->
+            when (loginResult) {
                 is Result.Success<*> -> {
                     onNavigateTo(Screen.Main)
                 }
                 is Result.Failure<*> -> {
-                    Toast.makeText(context, registerResult.msg, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, loginResult.msg, Toast.LENGTH_LONG).show()
                 }
             }
         }
+
     }
-    RegisterView(
+    LoginView(
         state = viewModel.state,
-        onEvent = viewModel::onEvent,
-        onNavigateTo = onNavigateTo
+        onNavigateTo = onNavigateTo,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-fun RegisterView(
-    state: RegisterScreenState = RegisterScreenState(),
-    onEvent: (RegisterScreenEvent) -> Unit = {},
-    onNavigateTo: (Screen) -> Unit = {}
+fun LoginView(
+    state: LoginScreenState,
+    onEvent: (LoginScreenEvent) -> Unit,
+    onNavigateTo: (Screen) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -78,40 +73,25 @@ fun RegisterView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = com.leoevg.mihnewsapp.R.string.app_name),
-            fontSize = 30.sp,
-            modifier = Modifier.padding(top = 100.dp)
+            text = stringResource(id = R.string.app_name),
+            fontSize = 25.sp,
+            modifier = Modifier
+                .padding(top = 100.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.logo),
-            contentDescription = "News app login img",
+            contentDescription = "News app login image",
             modifier = Modifier
                 .size(160.dp)
                 .padding(top = 20.dp)
         )
-        // username
+        // email input
         OutlinedTextField(
-            value = state.username,
-            onValueChange = {
-                onEvent(RegisterScreenEvent.UsernameUpdated(it))
-            },
-            leadingIcon = {
-                Icon(
-                    painter = rememberVectorPainter(image = Icons.Outlined.ThumbUp),
-                    contentDescription = "username"
-                )
-            },
             modifier = Modifier
-                .padding(top = 10.dp),
-            placeholder = {
-                Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_username))
-            }
-        )
-        // email
-        OutlinedTextField(
+                .padding(top = 100.dp),
             value = state.email,
             onValueChange = {
-                onEvent(RegisterScreenEvent.EmailUpdated(it))
+                onEvent(LoginScreenEvent.EmailUpdated(it))
             },
             leadingIcon = {
                 Icon(
@@ -119,19 +99,17 @@ fun RegisterView(
                     contentDescription = "Email"
                 )
             },
-            modifier = Modifier
-                .padding(top = 10.dp),
             placeholder = {
-                Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_email))
+                Text(text = stringResource(id = R.string.enter_email))
             }
         )
-        // password
+        // password input
         OutlinedTextField(
             modifier = Modifier
                 .padding(top = 10.dp),
             value = state.password,
             onValueChange = {
-                onEvent(RegisterScreenEvent.PasswordUpdated(it))
+                onEvent(LoginScreenEvent.PasswordUpdated(it))
             },
             leadingIcon = {
                 Icon(
@@ -139,38 +117,46 @@ fun RegisterView(
                     contentDescription = "password"
                 )
             },
-
             visualTransformation = PasswordVisualTransformation(),
             placeholder = {
-                Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_password))
+                Text(text = stringResource(id = R.string.enter_password))
             }
         )
 
         StyledButton(
             onClick = {
-                onEvent(RegisterScreenEvent.RegisterBtnClicked)
+                onEvent(LoginScreenEvent.LoginBtnClicked)
             },
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 30.dp)
+                .padding(top = 10.dp, bottom = 50.dp)
         ) {
-            Text(text = "Регистрация")
+            Text(
+                text = stringResource(id = R.string.login),
+                fontSize = 19.sp
+            )
         }
 
         Text(
-            text = stringResource(id = R.string.already_have_an_account),
+            text = stringResource(id = R.string.no_account_register),
             fontSize = 16.sp,
             modifier = Modifier
                 .padding(top = 20.dp)
                 .clickable {
-                    onNavigateTo(Screen.Login)
+                    onNavigateTo(Screen.Register)
                 }
         )
     }
 }
 
-
 @Composable
 @Preview(showBackground = true)
-fun RegisterScreenPreview() {
-    RegisterView()
+fun LoginScreenPreview() {
+    LoginView(
+        state = LoginScreenState(
+            email = "test@test.com",
+            password = "password"
+        ),
+        onEvent = {},
+        onNavigateTo = {}
+    )
 }
