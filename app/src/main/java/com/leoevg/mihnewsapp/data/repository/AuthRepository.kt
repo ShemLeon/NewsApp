@@ -18,6 +18,9 @@ class AuthRepository @Inject constructor(
         }
 
     fun register(username: String, email: String, password: String): Result{
+        if (userDao.getUserByEmail(email) != null)
+            return Result.Failure<Unit>("User with this email already exists")
+
         val user = User(
             id = UUID.randomUUID().toString(),
             username = username,
@@ -26,5 +29,7 @@ class AuthRepository @Inject constructor(
         )
 
         userDao.addUser(user)
+
+        return Result.Success<Unit>("Successfully registered")
     }
 }

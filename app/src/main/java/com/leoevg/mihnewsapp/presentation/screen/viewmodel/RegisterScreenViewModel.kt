@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leoevg.mihnewsapp.data.repository.AuthRepository
 import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenEvent
 import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterScreenViewModel @Inject constructor(
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     var state by mutableStateOf(RegisterScreenState())
         private set

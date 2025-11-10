@@ -1,6 +1,6 @@
 package com.leoevg.mihnewsapp.presentation.screen
 
-
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +15,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -31,14 +33,35 @@ import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenEvent
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenState
 import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
+import com.leoevg.mihnewsapp.util.Result
 
 
 @Composable
 fun LoginScreen(
-    onNavigateTo:(Screen) -> Unit
-){
+    onNavigateTo: (Screen) -> Unit
+) {
     val viewModel = viewModel<LoginScreenViewModel>()
 
+    val context = LocalContext.current
+
+    LaunchedEffect(viewModel.state.loginResult) {
+        viewModel.state.loginResult?.let { result ->
+            when (viewModel.state.loginResult) {
+                is Result.Success<*> -> {
+                    onNavigateTo(Screen.Main)
+                }
+
+                is Result.Failure<*> -> {
+                    Toast.makeText(
+                        context,
+                        (viewModel.state.loginResult as Result.Failure<*>).msg,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+    }
     LoginView(
         state = viewModel.state,
         onNavigateTo = onNavigateTo,
@@ -50,8 +73,8 @@ fun LoginScreen(
 fun LoginView(
     state: LoginScreenState,
     onEvent: (LoginScreenEvent) -> Unit,
-    onNavigateTo:(Screen) -> Unit,
-){
+    onNavigateTo: (Screen) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -65,7 +88,7 @@ fun LoginView(
                 .padding(top = 100.dp)
         )
         Image(
-            painter = painterResource(id=R.drawable.logo),
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = "News app login image",
             modifier = Modifier
                 .size(160.dp)
@@ -103,7 +126,6 @@ fun LoginView(
                     contentDescription = "password"
                 )
             },
-
             visualTransformation = PasswordVisualTransformation(),
             placeholder = {
                 Text(text = stringResource(id = R.string.enter_password))
@@ -128,16 +150,16 @@ fun LoginView(
             fontSize = 16.sp,
             modifier = Modifier
                 .padding(top = 20.dp)
-                .clickable{
-               onNavigateTo(Screen.Register)
-            }
+                .clickable {
+                    onNavigateTo(Screen.Register)
+                }
         )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun LoginScreenPreview(){
+fun LoginScreenPreview() {
     LoginView(
         state = LoginScreenState(
             email = "test@test.com",
