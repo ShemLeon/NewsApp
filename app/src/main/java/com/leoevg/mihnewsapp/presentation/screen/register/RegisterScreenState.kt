@@ -1,6 +1,6 @@
 package com.leoevg.mihnewsapp.presentation.screen.register
 
-import com.leoevg.mihnewsapp.util.Result
+import com.leoevg.mihnewsapp.domain.util.Result
 
 sealed class RegisterScreenEvent{
     data class UsernameUpdated(val newUsername: String): RegisterScreenEvent()

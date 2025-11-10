@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.leoevg.mihnewsapp.R
 import com.leoevg.mihnewsapp.presentation.navigation.Screen
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
-import com.leoevg.mihnewsapp.util.Result
+import com.leoevg.mihnewsapp.domain.util.Result
 
 
 @Composable

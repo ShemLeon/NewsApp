@@ -2,7 +2,7 @@ package com.leoevg.mihnewsapp.data.repository
 
 import com.leoevg.mihnewsapp.domain.dao.UserDao
 import com.leoevg.mihnewsapp.domain.entity.User
-import com.leoevg.mihnewsapp.util.Result
+import com.leoevg.mihnewsapp.domain.util.Result
 import java.util.UUID
 import javax.inject.Inject
 

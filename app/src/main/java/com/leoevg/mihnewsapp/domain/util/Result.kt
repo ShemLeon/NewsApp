@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.util
+package com.leoevg.mihnewsapp.domain.util
 
 sealed interface Result {
     data class Success<T>(val msg: String = "", val data: T? = null): Result

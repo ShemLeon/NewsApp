@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.di
+package com.leoevg.mihnewsapp.presentation.di
 
 import com.leoevg.mihnewsapp.data.repository.AuthRepository
 import com.leoevg.mihnewsapp.domain.dao.UserDao
