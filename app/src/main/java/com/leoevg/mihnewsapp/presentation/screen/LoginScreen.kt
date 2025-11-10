@@ -1,7 +1,6 @@
 package com.leoevg.mihnewsapp.presentation.screen
 
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,47 +15,30 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leoevg.mihnewsapp.R
 import com.leoevg.mihnewsapp.presentation.navigation.Screen
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenEvent
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenState
 import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
-import com.leoevg.mihnewsapp.util.util.Result
 
 
 @Composable
 fun LoginScreen(
-    onNavigateTo:(Screen) -> Unit,
-
+    onNavigateTo:(Screen) -> Unit
 ){
-    val viewModel = hiltViewModel<LoginScreenViewModel>()
-    val context = LocalContext.current
+    val viewModel = viewModel<LoginScreenViewModel>()
 
-    LaunchedEffect(viewModel.state.loginResult) {
-        viewModel.state.loginResult?.let { loginResult->
-            when(loginResult){
-                is Result.Success<*> -> {
-                    onNavigateTo(Screen.Main)
-                }
-                is Result.Failure<*> -> {
-                    Toast.makeText(context, loginResult.msg, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
     LoginView(
         state = viewModel.state,
         onNavigateTo = onNavigateTo,
@@ -142,7 +124,7 @@ fun LoginView(
         }
 
         Text(
-            text = stringResource(id = R.string.register),
+            text = stringResource(id = R.string.no_account_register),
             fontSize = 16.sp,
             modifier = Modifier
                 .padding(top = 20.dp)
@@ -157,7 +139,10 @@ fun LoginView(
 @Preview(showBackground = true)
 fun LoginScreenPreview(){
     LoginView(
-        state = LoginScreenState(email = "test@test.com", password = "password"),
+        state = LoginScreenState(
+            email = "test@test.com",
+            password = "password"
+        ),
         onEvent = {},
         onNavigateTo = {}
     )

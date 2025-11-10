@@ -2,12 +2,14 @@ package com.leoevg.mihnewsapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.leoevg.mihnewsapp.presentation.screen.LoginScreen
 import com.leoevg.mihnewsapp.presentation.screen.MainScreen
 import com.leoevg.mihnewsapp.presentation.screen.RegisterScreen
+import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
 import kotlinx.serialization.Serializable
 
 sealed class Screen{

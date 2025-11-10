@@ -1,6 +1,5 @@
 package com.leoevg.mihnewsapp.presentation.screen
 
-
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -39,35 +38,18 @@ import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenState
 import com.leoevg.mihnewsapp.presentation.screen.viewmodel.LoginScreenViewModel
 import com.leoevg.mihnewsapp.presentation.screen.viewmodel.RegisterScreenViewModel
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
-import com.leoevg.mihnewsapp.util.util.Result
+import com.leoevg.mihnewsapp.util.Result
 
 @Composable
 fun RegisterScreen(
-    onNavigateTo:(Screen) -> Unit = {}
-){
-    val viewModel = hiltViewModel<RegisterScreenViewModel>()
-    val context = LocalContext.current
-
-    LaunchedEffect(viewModel.state.registerResult) {
-        viewModel.state.registerResult?.let { registerResult->
-            when(registerResult){
-                is com.leoevg.mihnewsapp.util.util.Result.Success<*> -> {
-                    onNavigateTo(Screen.Main)
-                }
-                is Result.Failure<*> -> {
-                    Toast.makeText(context, registerResult.msg, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
+    onNavigateTo: (Screen) -> Unit = {}
+) {
+    val viewModel = viewModel<RegisterScreenViewModel>()
     RegisterView(
         state = viewModel.state,
         onEvent = viewModel::onEvent,
-        onNavigateTo = { navigateTo ->
-            onNavigateTo(navigateTo)
-        }
+        onNavigateTo = onNavigateTo
     )
-
 }
 
 @Composable
@@ -75,7 +57,7 @@ fun RegisterView(
     state: RegisterScreenState = RegisterScreenState(),
     onEvent: (RegisterScreenEvent) -> Unit = {},
     onNavigateTo: (Screen) -> Unit = {}
-){
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -85,20 +67,19 @@ fun RegisterView(
         Text(
             text = stringResource(id = com.leoevg.mihnewsapp.R.string.app_name),
             fontSize = 30.sp,
-            modifier = Modifier
-                .padding(top = 100.dp)
+            modifier = Modifier.padding(top = 100.dp)
         )
         Image(
-            painter = painterResource(id= com.leoevg.mihnewsapp.R.drawable.logo),
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = "News app login img",
             modifier = Modifier
                 .size(160.dp)
                 .padding(top = 20.dp)
         )
-
+        // username
         OutlinedTextField(
             value = state.username,
-            onValueChange ={
+            onValueChange = {
                 onEvent(RegisterScreenEvent.UsernameUpdated(it))
             },
             leadingIcon = {
@@ -113,9 +94,10 @@ fun RegisterView(
                 Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_username))
             }
         )
+        // email
         OutlinedTextField(
             value = state.email,
-            onValueChange ={
+            onValueChange = {
                 onEvent(RegisterScreenEvent.EmailUpdated(it))
             },
             leadingIcon = {
@@ -130,12 +112,12 @@ fun RegisterView(
                 Text(text = stringResource(id = com.leoevg.mihnewsapp.R.string.enter_email))
             }
         )
-
+        // password
         OutlinedTextField(
             modifier = Modifier
                 .padding(top = 10.dp),
             value = state.password,
-            onValueChange ={
+            onValueChange = {
                 onEvent(RegisterScreenEvent.PasswordUpdated(it))
             },
             leadingIcon = {
@@ -162,10 +144,13 @@ fun RegisterView(
         }
 
         Text(
-            text = "уже есть аккаунт",
-            modifier = Modifier.clickable{
-                onNavigateTo(Screen.Login)
-            }
+            text = stringResource(id = R.string.already_have_an_account),
+            fontSize = 16.sp,
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .clickable {
+                    onNavigateTo(Screen.Login)
+                }
         )
     }
 }
@@ -173,6 +158,6 @@ fun RegisterView(
 
 @Composable
 @Preview(showBackground = true)
-fun RegisterScreenPreview(){
+fun RegisterScreenPreview() {
     RegisterView()
 }

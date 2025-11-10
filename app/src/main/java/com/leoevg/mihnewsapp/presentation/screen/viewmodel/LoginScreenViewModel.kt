@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.leoevg.mihnewsapp.data.repository.AuthRepository
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenEvent
 import com.leoevg.mihnewsapp.presentation.screen.state.LoginScreenState
 import com.leoevg.mihnewsapp.presentation.screen.state.RegisterScreenState
@@ -25,28 +24,23 @@ import okhttp3.Dispatcher
 class LoginScreenViewModel @Inject constructor(
     private val  authRepository: AuthRepository
 ): ViewModel() {
-    var email by mutableStateOf("")
+    var state by mutableStateOf(LoginScreenState())
         private set
-    var password by mutableStateOf("")
-        private set
-    
+
     fun updateEmail(email: String){
-        this.email = email
+        this.state = state.copy(email = email)
     }
 
     fun updatePassword(password: String){
-        this.password = password
+        this.state = state.copy(password = password)
     }
-    
-    var state by mutableStateOf(LoginScreenState())
-        private set
 
     fun onEvent(event: LoginScreenEvent){
         when(event){
             is LoginScreenEvent.EmailUpdated ->
-                this.state = state.copy(email = event.email)
+                this.state = state.copy(email = event.newEmail)
             is LoginScreenEvent.PasswordUpdated ->
-                this.state = state.copy(password = event.password)
+                this.state = state.copy(password = event.newPassword)
             LoginScreenEvent.LoginBtnClicked -> login()
         }
     }

@@ -4,19 +4,17 @@ import android.content.Context
 import androidx.room.Room
 import com.leoevg.mihnewsapp.data.database.UserDatabase
 import com.leoevg.mihnewsapp.domain.dao.UserDao
+import com.leoevg.mihnewsapp.domain.entity.User
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideUserDatabase(@ApplicationContext context: Context): UserDatabase {
+    fun provideUserDatabase(@ApplicationContext context: Context): UserDatabase{
         return Room.databaseBuilder(
             context,
             UserDatabase::class.java,
@@ -24,9 +22,10 @@ object DatabaseModule {
         ).build()
     }
 
+
     @Provides
     @Singleton
-    fun provideUserDao(userDatabase: UserDatabase): UserDao {
-        return userDatabase.getuserDao()
+    fun provideUserDao(userDatabase: UserDatabase): UserDao{
+        return userDatabase.getUserDao()
     }
 }

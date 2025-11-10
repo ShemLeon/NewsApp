@@ -1,9 +1,9 @@
 package com.leoevg.mihnewsapp.presentation.screen.state
 
-import com.leoevg.mihnewsapp.util.util.Result
+import com.leoevg.mihnewsapp.util.Result
 sealed class LoginScreenEvent{
-    data class EmailUpdated(val email: String): LoginScreenEvent()
-    data class PasswordUpdated(val password: String): LoginScreenEvent()
+    data class EmailUpdated(val newEmail: String): LoginScreenEvent()
+    data class PasswordUpdated(val newPassword: String): LoginScreenEvent()
     data object LoginBtnClicked: LoginScreenEvent()
 }
 
