@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.ui.theme
+package com.leoevg.mihnewsapp.presentation.ui
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

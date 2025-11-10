@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.ui.theme
+package com.leoevg.mihnewsapp.presentation.ui
 
 import androidx.compose.ui.graphics.Color
 

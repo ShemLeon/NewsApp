@@ -1,6 +1,5 @@
 package com.leoevg.mihnewsapp.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +9,13 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.leoevg.mihnewsapp.presentation.ui.Pink40
+import com.leoevg.mihnewsapp.presentation.ui.Pink80
+import com.leoevg.mihnewsapp.presentation.ui.Purple40
+import com.leoevg.mihnewsapp.presentation.ui.Purple80
+import com.leoevg.mihnewsapp.presentation.ui.PurpleGrey40
+import com.leoevg.mihnewsapp.presentation.ui.PurpleGrey80
+import com.leoevg.mihnewsapp.presentation.ui.Typography
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,

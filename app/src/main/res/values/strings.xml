@@ -5,7 +5,7 @@
     <string name="enter_password">Введите пароль</string>
     <string name="enter_username">Введите никнейм</string>
     <string name="login">Войти</string>
-    <string name="register">Все еще нет аккаунта? Регистрация</string>
+    <string name="register">Все еще нет аккаунта? Зарегистрируйтесь</string>
 
 
 </resources>

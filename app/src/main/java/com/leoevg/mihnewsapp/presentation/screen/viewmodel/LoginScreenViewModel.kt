@@ -25,7 +25,19 @@ import okhttp3.Dispatcher
 class LoginScreenViewModel @Inject constructor(
     private val  authRepository: AuthRepository
 ): ViewModel() {
+    var email by mutableStateOf("")
+        private set
+    var password by mutableStateOf("")
+        private set
+    
+    fun updateEmail(email: String){
+        this.email = email
+    }
 
+    fun updatePassword(password: String){
+        this.password = password
+    }
+    
     var state by mutableStateOf(LoginScreenState())
         private set
 

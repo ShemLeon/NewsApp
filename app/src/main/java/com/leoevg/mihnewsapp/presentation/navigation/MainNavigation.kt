@@ -29,22 +29,22 @@ fun MainNav(
         navController = navHostController,
         startDestination = Screen.Login
     ){
-        composable<Screen.Main>{
-            MainScreen { navigateTo ->
-                navHostController.navigate(navigateTo)
-            }
-        }
-        composable<Screen.Register>{
-            RegisterScreen { navigateTo ->
-                navHostController.navigate(navigateTo)
-            }
-        }
         composable<Screen.Login>{
             LoginScreen(
                 onNavigateTo = { navigateTo->
                     navHostController.navigate(navigateTo)
                 }
             )
+        }
+        composable<Screen.Register>{
+            RegisterScreen { navigateTo ->
+                navHostController.navigate(navigateTo)
+            }
+        }
+        composable<Screen.Main>{
+            MainScreen { navigateTo ->
+                navHostController.navigate(navigateTo)
+            }
         }
 
     }
