@@ -44,7 +44,20 @@ import com.leoevg.mihnewsapp.util.Result
 fun RegisterScreen(
     onNavigateTo: (Screen) -> Unit = {}
 ) {
-    val viewModel = viewModel<RegisterScreenViewModel>()
+    val viewModel = hiltViewModel<RegisterScreenViewModel>()
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.state.registerResult) {
+        viewModel.state.registerResult?.let { registerResult ->
+            when (registerResult) {
+                is Result.Success<*> -> {
+                    onNavigateTo(Screen.Main)
+                }
+                is Result.Failure<*> -> {
+                    Toast.makeText(context, registerResult.msg, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
     RegisterView(
         state = viewModel.state,
         onEvent = viewModel::onEvent,

@@ -27,14 +27,12 @@ class LoginScreenViewModel @Inject constructor(
             LoginScreenEvent.LoginBtnClicked -> login()
         }
     }
-    private fun login(){
+
+    private fun login() = viewModelScope.launch(Dispatchers.IO) {
         val email = state.email
         val password = state.password
-        val result = authRepository.login(email, password)
-        this.state = state.copy(loginResult = result)
         if (email.isEmpty() || password.isEmpty()) return@launch
-
-
+        val result = authRepository.login(email, password)
         this@LoginScreenViewModel.state = state.copy(loginResult = result)
     }
 }

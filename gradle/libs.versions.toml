@@ -18,6 +18,7 @@ ksp = "2.2.0-2.0.2"
 kotlinCompose = "2.0.0"
 kotlinSerialization = "1.9.0"
 navigation = "2.9.6"
+coil = "2.6.0"
 hiltNavigation = "1.2.0"
 
 [libraries]

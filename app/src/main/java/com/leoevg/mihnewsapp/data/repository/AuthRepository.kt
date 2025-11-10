@@ -9,7 +9,7 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val userDao: UserDao
 ) {
-    fun login(email: String, password: String): Result {
+    suspend fun login(email: String, password: String): Result {
         val loginUser = userDao.login(email, password)
         val result = if (loginUser == null) Result.Failure<Unit>("Login Failed. Check your credentials")
         else Result.Success<Unit>("Successfully logged in")
@@ -17,7 +17,7 @@ class AuthRepository @Inject constructor(
         return result
         }
 
-    fun register(username: String, email: String, password: String): Result{
+    suspend fun register(username: String, email: String, password: String): Result{
         if (userDao.getUserByEmail(email) != null)
             return Result.Failure<Unit>("User with this email already exists")
 

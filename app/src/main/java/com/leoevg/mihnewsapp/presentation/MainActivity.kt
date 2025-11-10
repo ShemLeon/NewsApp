@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            _root_ide_package_.com.leoevg.mihnewsapp.presentation.ui.theme.MihNewsAppTheme {
+           MihNewsAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainContent(
                         modifier = Modifier.padding(innerPadding)

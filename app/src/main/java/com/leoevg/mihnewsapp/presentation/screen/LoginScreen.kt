@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leoevg.mihnewsapp.R
 import com.leoevg.mihnewsapp.presentation.navigation.Screen
@@ -38,25 +39,19 @@ import com.leoevg.mihnewsapp.util.Result
 
 @Composable
 fun LoginScreen(
-    onNavigateTo: (Screen) -> Unit
+    onNavigateTo: (Screen) -> Unit = {}
 ) {
-    val viewModel = viewModel<LoginScreenViewModel>()
+    val viewModel = hiltViewModel<LoginScreenViewModel>()
 
     val context = LocalContext.current
-
     LaunchedEffect(viewModel.state.loginResult) {
-        viewModel.state.loginResult?.let { result ->
-            when (viewModel.state.loginResult) {
+        viewModel.state.loginResult?.let { loginResult ->
+            when (loginResult) {
                 is Result.Success<*> -> {
                     onNavigateTo(Screen.Main)
                 }
-
                 is Result.Failure<*> -> {
-                    Toast.makeText(
-                        context,
-                        (viewModel.state.loginResult as Result.Failure<*>).msg,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(context, loginResult.msg, Toast.LENGTH_LONG).show()
                 }
             }
         }

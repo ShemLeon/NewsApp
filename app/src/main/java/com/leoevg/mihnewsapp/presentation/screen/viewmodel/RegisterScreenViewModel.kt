@@ -37,7 +37,6 @@ class RegisterScreenViewModel @Inject constructor(
 
         val result = authRepository.register(username, email, password)
         this@RegisterScreenViewModel.state = state.copy(registerResult = result)
+
     }
-
-
 }
