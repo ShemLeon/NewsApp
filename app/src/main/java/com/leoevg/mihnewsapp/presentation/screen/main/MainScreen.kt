@@ -2,21 +2,46 @@ package com.leoevg.mihnewsapp.presentation.screen.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.leoevg.mihnewsapp.presentation.navigation.Screen
+import com.leoevg.mihnewsapp.presentation.screen.main.feed.FeedScreen
+import com.leoevg.mihnewsapp.presentation.screen.main.navigation.BottomNavigationBar
+import com.leoevg.mihnewsapp.presentation.screen.main.navigation.MainScreenNavigationRoute
+import com.leoevg.mihnewsapp.presentation.screen.main.profile.ProfileScreen
 
 @Composable
 fun MainScreen(
     onNavigateTo:(Screen) -> Unit
 ){
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    val navController = rememberNavController()
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            BottomNavigationBar(navController)
+        }
     ) {
-        Text(
-            text = "MainScreen"
-        )
+        NavHost(
+            modifier = Modifier.padding(it),
+            navController = navController,
+            startDestination = MainScreenNavigationRoute.Feed
+        ){
+            composable<MainScreenNavigationRoute.Feed>{
+                FeedScreen()
+            }
+            composable<MainScreenNavigationRoute.Profile>{
+                ProfileScreen()
+            }
+
+        }
     }
 }
