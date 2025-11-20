@@ -71,7 +71,6 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.androidx.room.compiler)
 
-    implementation(libs.glide)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converterJson)
@@ -79,6 +78,8 @@ dependencies {
 
     implementation(libs.kotlin.x.serialization)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.coil.compose)
 
     implementation(libs.androidx.hilt.navigation.compose.v120)
 }
