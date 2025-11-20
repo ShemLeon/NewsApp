@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import com.leoevg.mihnewsapp.R
 import com.leoevg.mihnewsapp.domain.util.BottomNavItem
 
-
 @Composable
 fun BottomNavigationBar(
     navController: NavController
