@@ -12,20 +12,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.leoevg.mihnewsapp.data.repository.LocalAuthManager
 import com.leoevg.mihnewsapp.presentation.navigation.MainNav
 import com.leoevg.mihnewsapp.presentation.ui.theme.MihNewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
+    @Inject
+    lateinit var localAuthManager: LocalAuthManager
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-           MihNewsAppTheme {
+            MihNewsAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainContent(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        isLoggedIn = localAuthManager.isLoggedIn()
                     )
                 }
             }
@@ -35,15 +44,20 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainContent(
-    modifier: Modifier = Modifier
-){
-    MainNav(navHostController = rememberNavController(), modifier = modifier)
+    modifier: Modifier = Modifier,
+    isLoggedIn: Boolean
+) {
+    MainNav(
+        navHostController = rememberNavController(),
+        isLoggedIn = isLoggedIn,
+        modifier = modifier
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MainContentPreview(){
+fun MainContentPreview() {
     MihNewsAppTheme {
-        MainContent()
+        MainContent(isLoggedIn = false)
     }
 }

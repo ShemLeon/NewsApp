@@ -1,4 +1,4 @@
-package com.leoevg.mihnewsapp.presentation.di
+package com.leoevg.mihnewsapp.di
 
 import android.content.Context
 import androidx.room.Room
