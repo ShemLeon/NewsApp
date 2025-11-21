@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.leoevg.mihnewsapp.R
 import com.leoevg.mihnewsapp.presentation.navigation.Screen
 import com.leoevg.mihnewsapp.presentation.ui.component.StyledButton
