@@ -34,9 +34,6 @@ import coil.compose.AsyncImage
 import com.leoevg.mihnewsapp.R
 import com.leoevg.mihnewsapp.domain.model.NewsItem
 import com.leoevg.mihnewsapp.presentation.ui.theme.MihNewsAppTheme
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun NewsItem(
@@ -57,7 +54,6 @@ fun NewsItem(
     ) {
         Column(
             modifier = Modifier
-                .background(Color.White)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -125,7 +121,7 @@ fun NewsItemPreview() {
                 title = "News item 1",
                 description = "Description",
                 publishedBy = "News source",
-                publishedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString(),
+                publishedAt = "2023-10-20T12:00:00",
                 imageUrl = "",
                 content = "",
                 isFavorite = true
