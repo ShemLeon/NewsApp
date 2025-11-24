@@ -20,7 +20,6 @@ import kotlinx.datetime.Month
 @Composable
 fun FeedScreen() {
     var searchText by remember { mutableStateOf("") }
-
     val sampleNewsItems = listOf(
         NewsItem(
             id = "1",
