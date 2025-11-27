@@ -4,5 +4,5 @@ import com.leoevg.mihnewsapp.domain.model.NewsItem
 
 data class FeedScreenState(
     val searchQuery: String = "",
-    val filteredNews: List<NewsItem> = emptyList<NewsItem>()
+    val filteredNews: List<NewsItem> = emptyList()
 )
