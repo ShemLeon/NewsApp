@@ -10,13 +10,13 @@ import com.leoevg.mihnewsapp.presentation.screen.main.MainScreen
 import com.leoevg.mihnewsapp.presentation.screen.register.RegisterScreen
 import kotlinx.serialization.Serializable
 
-sealed class Screen{
+sealed interface Screen{
     @Serializable
-    data object Login: Screen()
+    data object Login: Screen
     @Serializable
-    data object Register: Screen()
+    data object Register: Screen
     @Serializable
-    data object Main: Screen()
+    data object Main: Screen
 }
 
 @Composable
