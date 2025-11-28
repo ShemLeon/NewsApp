@@ -75,6 +75,7 @@ fun NewsItem(
             ) {
                 Text(
                     text = newsItem.title,
+                    modifier = Modifier.weight(1f),
                     fontSize = 22.sp
                 )
                 IconButton(

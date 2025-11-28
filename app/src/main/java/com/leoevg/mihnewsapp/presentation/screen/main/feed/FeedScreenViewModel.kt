@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = FeedScreenViewModel.Factory::class)
 class FeedScreenViewModel @AssistedInject constructor(
     @Assisted val navigate: (Screen) -> Unit,
     private val newsRepository: NewsRepository
