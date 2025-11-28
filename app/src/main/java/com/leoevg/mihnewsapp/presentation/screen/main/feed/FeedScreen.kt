@@ -27,26 +27,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.leoevg.mihnewsapp.domain.model.NewsItem
 import com.leoevg.mihnewsapp.presentation.ui.component.NewsItem as NewsItemView
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import com.leoevg.mihnewsapp.R
+import com.leoevg.mihnewsapp.presentation.navigation.Screen
+import com.leoevg.mihnewsapp.presentation.ui.component.NewsItem
 
 
 @Composable
-fun FeedScreen() {
-    var searchText by remember { mutableStateOf("") }
+fun FeedScreen(
+    navigate: (Screen) -> Unit
+) {
+    val viewModel = hiltViewModel<FeedScreenViewModel, FeedScreenViewModel.Factory>{
+        it.create(navigate)
+    }
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
+    FeedScreenContent(
+        state = state,
+        onEvent = viewModel::onEvent
+    )
 
+}
+
+@Composable
+fun FeedScreenContent(
+    state: FeedScreenState,
+    onEvent: (FeedScreenEvent) -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
-            value = searchText,
-            onValueChange = { searchText = it },
+            value = state.searchQuery,
+            onValueChange = { onEvent(FeedScreenEvent.SearchQueryChanged(it)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -69,16 +89,20 @@ fun FeedScreen() {
 
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.fillMaxSize(0.9f)
+            modifier = Modifier
+                .fillMaxSize(0.9f),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(sampleNewsItems) { newsItem ->
-                NewsItemView(
-                    newsItem = newsItem,
+            items(state.filteredNews) {
+                NewsItem(
+                    newsItem = it,
                     onFavoriteClicked = {},
-                    onReadClicked = {}
+                    onReadClicked = {
+                        onEvent(FeedScreenEvent.NewsItemClicked(it))
+                    }
                 )
             }
         }
     }
 }
+
